@@ -29,6 +29,14 @@ pipeline {
             }
         }
 
+
+        post {
+            always {
+                junit testResults: '**/reports/**/*.xml',
+                    allowEmptyResults: true
+            }
+        }
+
         stage('deploy') {
             steps {
                 s3Upload consoleLogLevel: 'INFO', 
