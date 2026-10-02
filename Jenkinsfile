@@ -17,13 +17,13 @@ pipeline {
             }
         }
 
-        stage('test') {
+        stage('unit-test') {
             steps {
                 sh 'yarn test'
             }
         }
 
-        stage('test') {
+        stage('integration-test') {
             steps {
                 sh 'yarn test:e2e'
             }
