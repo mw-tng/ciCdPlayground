@@ -26,13 +26,15 @@ pipeline {
         }
 
         stage('E2E Tests') {
-            catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+            steps {
                 sh 'yarn test:e2e'
             }
-        }
-
-        stage('Publish Test Results') {
-            junit testResults: '**/reports/**/*.xml', allowEmptyResults: true
+            post {
+                always {
+                    junit testResults: '**/reports/**/*.xml', allowEmptyResults: true
+                }
+            }
+            
         }
 
         stage('deploy') {
