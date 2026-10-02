@@ -4,6 +4,8 @@ pipeline {
         nodejs 'yarn'
     }
 
+    environment { TERM = 'xterm'; NO_COLOR = '1' }
+
     stages {
         stage('install') {
             steps {
@@ -23,18 +25,14 @@ pipeline {
             }
         }
 
-        stage('integration-test') {
-            steps {
+        stage('E2E Tests') {
+            catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                 sh 'yarn test:e2e'
             }
         }
 
-
-        post {
-            always {
-                junit testResults: '**/reports/**/*.xml',
-                    allowEmptyResults: true
-            }
+        stage('Publish Test Results') {
+            junit testResults: '**/reports/**/*.xml', allowEmptyResults: true
         }
 
         stage('deploy') {
