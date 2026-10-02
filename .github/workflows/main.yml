@@ -31,7 +31,7 @@ jobs:
     - name: Integration tests
       run: yarn test:e2e
         - name: Publish test results
-      if: always()   # run even when the test step failed
+      if: always() 
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: |
